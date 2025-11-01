@@ -13,7 +13,7 @@ export const getTrendingMovies = async () => {
   return response.data.results;
 };
 
-export const searchMovies = async (query: string) => {
+export const getMoviesByName = async (query: string) => {
   const response = await axios.get(
     `${
       import.meta.env.VITE_BASE_URL
@@ -26,4 +26,17 @@ export const searchMovies = async (query: string) => {
     }
   );
   return response.data.results;
+};
+
+export const getMovieById = async (id: string) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_BASE_URL}/movie/${id}`,
+    {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    }
+  );
+  return response.data;
 };
