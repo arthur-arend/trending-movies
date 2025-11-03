@@ -1,26 +1,21 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../components/Card/Card.component";
-import {
-  getMoviesByName,
-  getTrendingMovies,
-} from "../../services/movies.service";
-
-import type { IMovie } from "../../Model/IMovie";
+import { useMovieListStore } from "../../store/movie-list.store";
+import { useMoviesController } from "./controllers/home.controller";
 
 export const Home = () => {
-  const [movies, setMovies] = useState<IMovie[]>([]);
   const [search, setSearch] = useState("");
+  const { movies } = useMovieListStore();
+  const { getTrendingMovies, getMoviesByName } = useMoviesController();
 
   useEffect(() => {
-    getTrendingMovies().then((movies) => {
-      setMovies(movies);
-    });
-  }, []);
+    if (movies.length === 0) {
+      getTrendingMovies();
+    }
+  }, [getTrendingMovies, movies.length]);
 
   const handleSearchMovies = () => {
-    getMoviesByName(search).then((movies) => {
-      setMovies(movies);
-    });
+    getMoviesByName(search);
   };
 
   return (

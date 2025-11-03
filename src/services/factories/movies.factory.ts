@@ -1,8 +1,7 @@
-// Tipo para o objeto editado retornado
 import type { IMovie } from "../../Model/IMovie";
 
 const roundVoteAverage = (voteAverage: number): number => {
-  return Number(voteAverage.toFixed(2));
+  return Number(voteAverage.toFixed(1));
 };
 
 const formatReleaseDate = (dateString: string): string => {

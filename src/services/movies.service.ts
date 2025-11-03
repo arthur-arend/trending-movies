@@ -4,7 +4,7 @@ import {
   handleMovieListFactory,
 } from "./factories/movies.factory";
 
-export const getTrendingMovies = async () => {
+export const getTrendingMoviesService = async () => {
   const response = await axios.get(
     `${import.meta.env.VITE_BASE_URL}/trending/movie/week?language=en-US`,
     {
@@ -17,7 +17,7 @@ export const getTrendingMovies = async () => {
   return handleMovieListFactory(response.data);
 };
 
-export const getMoviesByName = async (query: string) => {
+export const getMoviesByNameService = async (query: string) => {
   const response = await axios.get(
     `${
       import.meta.env.VITE_BASE_URL
@@ -32,7 +32,7 @@ export const getMoviesByName = async (query: string) => {
   return handleMovieListFactory(response.data);
 };
 
-export const getMovieById = async (id: string) => {
+export const getMovieByIdService = async (id: string) => {
   const response = await axios.get(
     `${import.meta.env.VITE_BASE_URL}/movie/${id}`,
     {
