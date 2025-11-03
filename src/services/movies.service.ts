@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  handleMovieFactory,
+  handleMovieListFactory,
+} from "./factories/movies.factory";
 
 export const getTrendingMovies = async () => {
   const response = await axios.get(
@@ -10,7 +14,7 @@ export const getTrendingMovies = async () => {
       },
     }
   );
-  return response.data.results;
+  return handleMovieListFactory(response.data);
 };
 
 export const getMoviesByName = async (query: string) => {
@@ -25,7 +29,7 @@ export const getMoviesByName = async (query: string) => {
       },
     }
   );
-  return response.data.results;
+  return handleMovieListFactory(response.data);
 };
 
 export const getMovieById = async (id: string) => {
@@ -38,5 +42,5 @@ export const getMovieById = async (id: string) => {
       },
     }
   );
-  return response.data;
+  return handleMovieFactory(response.data);
 };

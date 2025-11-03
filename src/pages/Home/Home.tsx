@@ -5,8 +5,10 @@ import {
   getTrendingMovies,
 } from "../../services/movies.service";
 
+import type { IMovie } from "../../Model/IMovie";
+
 export const Home = () => {
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<IMovie[]>([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {

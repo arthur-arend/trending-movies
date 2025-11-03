@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
+import type { IMovie } from "../../Model/IMovie";
 
-export const Card = ({ movie }: { movie: any }) => {
+export const Card = ({ movie }: { movie: IMovie }) => {
   const navigate = useNavigate();
   return (
     <div key={movie.id} onClick={() => navigate(`/detail/${movie.id}`)}>
