@@ -1,34 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Card } from "../../components/Card/Card.component";
+import { SearchBar } from "../../components/SearchBar/SearchBar.component";
+import { useMoviesController } from "../../controllers/movies.controller";
 import { useMovieListStore } from "../../store/movie-list.store";
-import { useMoviesController } from "./controllers/home.controller";
 
 export const Home = () => {
-  const [search, setSearch] = useState("");
-  const { movies } = useMovieListStore();
+  const { moviesTrending } = useMovieListStore();
   const { getTrendingMovies, getMoviesByName } = useMoviesController();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (movies.length === 0) {
+    if (moviesTrending.length === 0) {
       getTrendingMovies();
     }
-  }, [getTrendingMovies, movies.length]);
+  }, [getTrendingMovies, moviesTrending.length]);
 
-  const handleSearchMovies = () => {
-    getMoviesByName(search);
+  const handleSearchMovies = async (query: string) => {
+    await getMoviesByName(query);
+    navigate("/search");
   };
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="Search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <button onClick={() => handleSearchMovies()}>Search</button>
-      {movies.length > 0 ? (
-        movies.map((movie) => <Card key={movie.id} movie={movie} />)
+      <SearchBar onSearch={handleSearchMovies} />
+      {moviesTrending.length > 0 ? (
+        moviesTrending.map((movie) => <Card key={movie.id} movie={movie} />)
       ) : (
         <p>Loading...</p>
       )}

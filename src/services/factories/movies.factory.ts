@@ -1,4 +1,4 @@
-import type { IMovie } from "../../Model/IMovie";
+import type { IMovie } from "../../model/interfaces/IMovie";
 
 const roundVoteAverage = (voteAverage: number): number => {
   return Number(voteAverage.toFixed(1));

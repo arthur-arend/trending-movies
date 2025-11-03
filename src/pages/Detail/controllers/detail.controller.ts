@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import type { IMovie } from "../../../Model/IMovie";
+import type { IMovie } from "../../../model/interfaces/IMovie";
 import { getMovieByIdService } from "../../../services/movies.service";
 
 export function useDetailController(setMovie: (movie: IMovie | null) => void) {

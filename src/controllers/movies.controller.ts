@@ -1,41 +1,41 @@
 import { useCallback } from "react";
-import type { IMovie } from "../../../Model/IMovie";
+import type { IMovie } from "../model/interfaces/IMovie";
 import {
   getMoviesByNameService,
   getTrendingMoviesService,
-} from "../../../services/movies.service";
-import { useMovieListStore } from "../../../store/movie-list.store";
+} from "../services/movies.service";
+import { useMovieListStore } from "../store/movie-list.store";
 
 const sortMoviesByVoteAverage = (movies: IMovie[]): IMovie[] => {
   return [...movies].sort((a, b) => b.vote_average - a.vote_average);
 };
 
 export function useMoviesController() {
-  const { setMovies } = useMovieListStore();
+  const { setMoviesTrending, setMoviesByName } = useMovieListStore();
 
   const getTrendingMovies = useCallback(async () => {
     try {
       const moviesResponse = await getTrendingMoviesService();
       const sortedMovies = sortMoviesByVoteAverage(moviesResponse);
-      setMovies(sortedMovies);
+      setMoviesTrending(sortedMovies);
     } catch (error) {
       console.error("Erro ao buscar filmes:", error);
-      setMovies([]);
+      setMoviesTrending([]);
     }
-  }, [setMovies]);
+  }, [setMoviesTrending]);
 
   const getMoviesByName = useCallback(
     async (query: string) => {
       try {
         const moviesResponse = await getMoviesByNameService(query);
         const sortedMovies = sortMoviesByVoteAverage(moviesResponse);
-        setMovies(sortedMovies);
+        setMoviesByName(sortedMovies);
       } catch (error) {
         console.error("Erro ao buscar o filme:", error);
-        setMovies([]);
+        setMoviesByName([]);
       }
     },
-    [setMovies]
+    [setMoviesByName]
   );
 
   return { getTrendingMovies, getMoviesByName };

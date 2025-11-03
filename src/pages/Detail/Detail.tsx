@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import type { IMovie } from "../../Model/IMovie";
+import type { IMovie } from "../../model/interfaces/IMovie";
 
 import { useDetailController } from "./controllers/detail.controller";
 

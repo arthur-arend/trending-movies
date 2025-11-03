@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import type { IMovie } from "../../Model/IMovie";
+import type { IMovie } from "../../model/interfaces/IMovie";
 
 export const Card = ({ movie }: { movie: IMovie }) => {
   const navigate = useNavigate();

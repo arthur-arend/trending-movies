@@ -1,13 +1,16 @@
 import { create } from "zustand";
-import type { IMovie } from "../Model/IMovie";
+import type { IMovie } from "../model/interfaces/IMovie";
 
 interface MovieListStore {
-  movies: IMovie[];
-  setMovies: (movies: IMovie[]) => void;
+  moviesTrending: IMovie[];
+  setMoviesTrending: (movies: IMovie[]) => void;
+  moviesByName: IMovie[];
+  setMoviesByName: (movies: IMovie[]) => void;
 }
 
 export const useMovieListStore = create<MovieListStore>((set) => ({
-  movies: [],
-  setMovies: (movies) => set({ movies }),
+  moviesTrending: [],
+  setMoviesTrending: (moviesTrending) => set({ moviesTrending }),
+  moviesByName: [],
+  setMoviesByName: (moviesByName) => set({ moviesByName }),
 }));
-
