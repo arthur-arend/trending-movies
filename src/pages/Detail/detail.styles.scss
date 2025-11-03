@@ -1,0 +1,136 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    gap: 2rem;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  &__close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    z-index: 10;
+    height: 2rem;
+    width: 2rem;
+
+    svg {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+
+  &__image {
+    width: 300px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 1;
+  }
+
+  &__rating {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    color: #fff !important;
+
+    &--green {
+      background-color: #4caf50;
+    }
+
+    &--yellow {
+      background-color: #ff9800;
+    }
+
+    &--red {
+      background-color: #f44336;
+    }
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  &__text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333333;
+    margin: 0;
+    min-height: 1.5rem;
+  }
+
+  &__description {
+    min-height: 6rem;
+    max-height: 12rem;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    &__container {
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    &__info {
+      align-items: center;
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__text {
+      font-size: 0.9rem;
+    }
+
+    &__description {
+      min-height: 5rem;
+      max-height: 10rem;
+    }
+
+    &__image {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+}

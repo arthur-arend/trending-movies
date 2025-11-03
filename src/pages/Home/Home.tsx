@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
 import { Card } from "../../components/Card/Card.component";
-import { SearchBar } from "../../components/SearchBar/SearchBar.component";
+import { CardSkeleton } from "../../components/CardSkeleton/CardSkeleton.component";
+import { Header } from "../../components/Header/Header";
 import { useMoviesController } from "../../controllers/movies.controller";
 import { useMovieListStore } from "../../store/movie-list.store";
+import "./home.styles.scss";
 
 export const Home = () => {
-  const { moviesTrending } = useMovieListStore();
-  const { getTrendingMovies, getMoviesByName } = useMoviesController();
-
-  const navigate = useNavigate();
+  const { moviesTrending, loading, error } = useMovieListStore();
+  const { getTrendingMovies } = useMoviesController();
 
   useEffect(() => {
     if (moviesTrending.length === 0) {
@@ -17,19 +16,27 @@ export const Home = () => {
     }
   }, [getTrendingMovies, moviesTrending.length]);
 
-  const handleSearchMovies = async (query: string) => {
-    await getMoviesByName(query);
-    navigate("/search");
-  };
-
   return (
     <>
-      <SearchBar onSearch={handleSearchMovies} />
-      {moviesTrending.length > 0 ? (
-        moviesTrending.map((movie) => <Card key={movie.id} movie={movie} />)
-      ) : (
-        <p>Loading...</p>
-      )}
+      <Header />
+      <div className="home-page">
+        <h1 className="home-page__title">Filmes em Alta</h1>
+        <div className="movies-list">
+          {loading ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <CardSkeleton key={`skeleton-${index}`} />
+            ))
+          ) : error ? (
+            <div className="home-page__message home-page__message--error">
+              {error}
+            </div>
+          ) : moviesTrending.length > 0 ? (
+            moviesTrending.map((movie) => <Card key={movie.id} movie={movie} />)
+          ) : (
+            <div className="home-page__message">Nenhum filme encontrado.</div>
+          )}
+        </div>
+      </div>
     </>
   );
 };

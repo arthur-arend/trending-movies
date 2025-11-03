@@ -1,0 +1,40 @@
+.home-page {
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__title {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #fff;
+  }
+
+  &__message {
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+
+    &--error {
+      color: #f44336;
+      background-color: rgba(244, 67, 54, 0.1);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+  }
+}
+
+.movies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 400px;
+  width: 100%;
+}

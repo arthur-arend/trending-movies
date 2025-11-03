@@ -1,22 +1,50 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useMovieListStore } from "../../store/movie-list.store";
+import "./searchBar.styles.scss";
 
 export interface ISearchBarProps {
   onSearch: (query: string) => void | Promise<void>;
-  initialValue?: string;
 }
 
-export const SearchBar = ({ onSearch, initialValue }: ISearchBarProps) => {
-  const [search, setSearch] = useState(initialValue || "");
+export const SearchBar = ({ onSearch }: ISearchBarProps) => {
+  const { searchTerm, setSearchTerm } = useMovieListStore();
+  const [hasError, setHasError] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearch = () => {
+    const trimmedSearchTerm = searchTerm.trim();
+    if (trimmedSearchTerm) {
+      setHasError(false);
+      onSearch(trimmedSearchTerm);
+    } else {
+      setHasError(true);
+      inputRef.current?.focus();
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    if (hasError) {
+      setHasError(false);
+    }
+  };
 
   return (
-    <>
+    <div className="search-bar">
       <input
+        ref={inputRef}
         type="text"
-        placeholder="Buscar"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Buscar por um filme"
+        value={searchTerm}
+        onChange={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSearch();
+          }
+        }}
+        className={`search-bar__input ${hasError ? "search-bar__input--error" : ""}`}
       />
-      <button onClick={() => onSearch(search)}>Buscar</button>
-    </>
+      <button onClick={handleSearch} className="search-bar__button">Buscar</button>
+    </div>
   );
 };

@@ -11,31 +11,46 @@ const sortMoviesByVoteAverage = (movies: IMovie[]): IMovie[] => {
 };
 
 export function useMoviesController() {
-  const { setMoviesTrending, setMoviesByName } = useMovieListStore();
+  const { setMoviesTrending, setMoviesByName, setLoading, setError } =
+    useMovieListStore();
 
   const getTrendingMovies = useCallback(async () => {
     try {
+      setLoading(true);
+      setError("");
       const moviesResponse = await getTrendingMoviesService();
       const sortedMovies = sortMoviesByVoteAverage(moviesResponse);
       setMoviesTrending(sortedMovies);
     } catch (error) {
       console.error("Erro ao buscar filmes:", error);
+      setError("Erro ao carregar filmes em alta");
       setMoviesTrending([]);
+    } finally {
+      setLoading(false);
     }
-  }, [setMoviesTrending]);
+  }, [setMoviesTrending, setLoading, setError]);
 
   const getMoviesByName = useCallback(
     async (query: string) => {
+      if (!query.trim()) {
+        setMoviesByName([]);
+        return;
+      }
       try {
+        setLoading(true);
+        setError("");
         const moviesResponse = await getMoviesByNameService(query);
         const sortedMovies = sortMoviesByVoteAverage(moviesResponse);
         setMoviesByName(sortedMovies);
       } catch (error) {
         console.error("Erro ao buscar o filme:", error);
+        setError("Erro ao buscar o filme");
         setMoviesByName([]);
+      } finally {
+        setLoading(false);
       }
     },
-    [setMoviesByName]
+    [setMoviesByName, setLoading, setError]
   );
 
   return { getTrendingMovies, getMoviesByName };
