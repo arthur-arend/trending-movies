@@ -1,25 +1,33 @@
 import { create } from "zustand";
-import type { IMovie } from "../model/interfaces/IMovie";
+import type { IMovieList } from "../model/interfaces/IMovie";
 
 interface MovieListStore {
-  moviesTrending: IMovie[];
-  setMoviesTrending: (movies: IMovie[]) => void;
-  moviesByName: IMovie[];
-  setMoviesByName: (movies: IMovie[]) => void;
+  moviesTrending: IMovieList;
+  setMoviesTrending: (movies: IMovieList) => void;
+  moviesByName: IMovieList;
+  setMoviesByName: (movies: IMovieList) => void;
   searchTerm: string;
   setSearchTerm: (search: string) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
   error: string;
   setError: (error: string) => void;
-  currentPage: number;
-  setCurrentPage: (currentPage: number) => void;
 }
 
 export const useMovieListStore = create<MovieListStore>((set) => ({
-  moviesTrending: [],
+  moviesTrending: {
+    page: 1,
+    results: [],
+    total_pages: 0,
+    total_results: 0,
+  },
   setMoviesTrending: (moviesTrending) => set({ moviesTrending }),
-  moviesByName: [],
+  moviesByName: {
+    page: 0,
+    results: [],
+    total_pages: 0,
+    total_results: 0,
+  },
   setMoviesByName: (moviesByName) => set({ moviesByName }),
   searchTerm: "",
   setSearchTerm: (search) => set({ searchTerm: search }),
@@ -27,6 +35,4 @@ export const useMovieListStore = create<MovieListStore>((set) => ({
   setLoading: (loading) => set({ loading }),
   error: "",
   setError: (error) => set({ error }),
-  currentPage: 1,
-  setCurrentPage: (currentPage) => set({ currentPage }),
 }));

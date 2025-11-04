@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { DetailSkeleton } from "../../components/DetailSkeleton/DetailSkeleton.component";
-import { Header } from "../../components/Header/Header";
+import { Header } from "../../components/Header/Header.component";
 import type { IMovie } from "../../model/interfaces/IMovie";
+import { getRatingClass } from "../../utils/rating.utils";
 import "./detail.styles.scss";
 
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
@@ -19,12 +20,6 @@ export const Detail = () => {
   useEffect(() => {
     getMovieById(id);
   }, [id, getMovieById]);
-
-  const getRatingClass = (rating: number) => {
-    if (rating >= 7) return "detail__rating--green";
-    if (rating >= 6) return "detail__rating--yellow";
-    return "detail__rating--red";
-  };
 
   return (
     <>
@@ -48,7 +43,8 @@ export const Detail = () => {
             <div className="detail__info">
               <p
                 className={`detail__rating ${getRatingClass(
-                  movieDetail.vote_average
+                  movieDetail.vote_average,
+                  "detail__rating"
                 )}`}
               >
                 Nota: {movieDetail.vote_average}

@@ -1,4 +1,4 @@
-import type { IMovie } from "../../model/interfaces/IMovie";
+import type { IMovie, IMovieList } from "../../model/interfaces/IMovie";
 
 const roundVoteAverage = (voteAverage: number): number => {
   return Number(voteAverage.toFixed(1));
@@ -18,17 +18,25 @@ const formatReleaseDate = (dateString: string): string => {
   return `${day}/${month}/${year}`;
 };
 
-export const handleMovieListFactory = (jsonResponse: unknown): IMovie[] => {
+export const handleMovieListFactory = (jsonResponse: unknown): IMovieList => {
   if (
     !jsonResponse ||
     typeof jsonResponse !== "object" ||
     !("results" in jsonResponse) ||
     !Array.isArray(jsonResponse.results)
   ) {
-    return [];
+    return {
+      page: 0,
+      results: [],
+      total_pages: 0,
+      total_results: 0,
+    };
   }
 
-  return jsonResponse.results
+  const response = jsonResponse as Record<string, unknown>;
+  const resultsArray = response.results as unknown[];
+
+  const results = resultsArray
     .map((movie: unknown) => {
       if (!movie || typeof movie !== "object") {
         return null;
@@ -52,6 +60,13 @@ export const handleMovieListFactory = (jsonResponse: unknown): IMovie[] => {
       } as IMovie;
     })
     .filter((movie): movie is IMovie => movie !== null);
+
+  return {
+    page: (response.page ?? 0) as number,
+    results,
+    total_pages: (response.total_pages ?? 0) as number,
+    total_results: (response.total_results ?? 0) as number,
+  };
 };
 
 export const handleMovieFactory = (jsonResponse: unknown): IMovie | null => {

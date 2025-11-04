@@ -14,3 +14,10 @@ export interface IMovie {
   vote_average: number;
   genres?: Array<{ id: number; name: string }>;
 }
+
+export interface IMovieList {
+  page: number;
+  results: IMovie[];
+  total_pages: number;
+  total_results: number;
+}

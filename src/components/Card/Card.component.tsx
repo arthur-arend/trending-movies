@@ -1,15 +1,10 @@
 import { useNavigate } from "react-router";
 import type { IMovie } from "../../model/interfaces/IMovie";
+import { getRatingClass } from "../../utils/rating.utils";
 import "./card.styles.scss";
 
 export const Card = ({ movie }: { movie: IMovie }) => {
   const navigate = useNavigate();
-
-  const getRatingClass = (rating: number) => {
-    if (rating >= 7) return "card__rating--green";
-    if (rating >= 6) return "card__rating--yellow";
-    return "card__rating--red";
-  };
 
   return (
     <div
@@ -26,7 +21,12 @@ export const Card = ({ movie }: { movie: IMovie }) => {
         <h2 className="card__title">Título: {movie.title}</h2>
         <p className="card__date">Lançamento: {movie.release_date}</p>
         <p className="card__description">Descrição: {movie.overview}</p>
-        <p className={`card__rating ${getRatingClass(movie.vote_average)}`}>
+        <p
+          className={`card__rating ${getRatingClass(
+            movie.vote_average,
+            "card__rating"
+          )}`}
+        >
           Nota: {movie.vote_average}
         </p>
       </div>

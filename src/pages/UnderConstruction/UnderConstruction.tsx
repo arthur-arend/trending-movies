@@ -1,4 +1,4 @@
-import { Header } from "../../components/Header/Header";
+import { Header } from "../../components/Header/Header.component";
 import "./underConstruction.styles.scss";
 
 function UnderConstruction() {

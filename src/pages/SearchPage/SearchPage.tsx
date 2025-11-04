@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router";
 import { Card } from "../../components/Card/Card.component";
 import { CardSkeleton } from "../../components/CardSkeleton/CardSkeleton.component";
-import { Header } from "../../components/Header/Header";
+import { Header } from "../../components/Header/Header.component";
 import { useMovieListStore } from "../../store/movie-list.store";
 import "./searchPage.styles.scss";
 
@@ -34,8 +34,10 @@ export const SearchPage = () => {
             <div className="search-page__message search-page__message--error">
               {error}
             </div>
-          ) : moviesByName.length > 0 ? (
-            moviesByName.map((movie) => <Card key={movie.id} movie={movie} />)
+          ) : moviesByName.results.length > 0 ? (
+            moviesByName.results.map((movie) => (
+              <Card key={movie.id} movie={movie} />
+            ))
           ) : (
             <div className="search-page__message">
               Nenhum filme encontrado. Tente buscar com outro termo.

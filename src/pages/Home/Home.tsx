@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Card } from "../../components/Card/Card.component";
 import { CardSkeleton } from "../../components/CardSkeleton/CardSkeleton.component";
-import { Header } from "../../components/Header/Header";
+import { Header } from "../../components/Header/Header.component";
 import { useMoviesController } from "../../controllers/movies.controller";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { useMovieListStore } from "../../store/movie-list.store";
 import "./home.styles.scss";
 
@@ -11,39 +12,15 @@ export const Home = () => {
   const { getTrendingMovies, loadNextPage } = useMoviesController();
 
   useEffect(() => {
-    if (moviesTrending.length === 0) {
+    if (moviesTrending.results.length === 0) {
       getTrendingMovies();
     }
-  }, [getTrendingMovies, moviesTrending.length]);
+  }, [getTrendingMovies, moviesTrending.results.length]);
 
-  useEffect(() => {
-    if (moviesTrending.length === 0 || loading) {
-      return;
-    }
-
-    const intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          loadNextPage();
-        }
-      },
-      {
-        rootMargin: "100px",
-      }
-    );
-
-    const sentinel = document.querySelector("#infinite-scroll");
-    if (sentinel) {
-      intersectionObserver.observe(sentinel);
-    }
-
-    return () => {
-      if (sentinel) {
-        intersectionObserver.unobserve(sentinel);
-      }
-      intersectionObserver.disconnect();
-    };
-  }, [moviesTrending.length, loading, loadNextPage]);
+  useInfiniteScroll({
+    onLoadMore: loadNextPage,
+    enabled: moviesTrending.results.length > 0 && !loading,
+  });
 
   return (
     <>
@@ -59,9 +36,9 @@ export const Home = () => {
             <div className="home-page__message home-page__message--error">
               {error}
             </div>
-          ) : moviesTrending.length > 0 ? (
+          ) : moviesTrending.results.length > 0 ? (
             <>
-              {moviesTrending.map((movie) => (
+              {moviesTrending.results.map((movie) => (
                 <Card key={movie.id} movie={movie} />
               ))}
               <div id="infinite-scroll" />
