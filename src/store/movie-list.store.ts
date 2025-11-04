@@ -12,6 +12,8 @@ interface MovieListStore {
   setLoading: (loading: boolean) => void;
   error: string;
   setError: (error: string) => void;
+  currentPage: number;
+  setCurrentPage: (currentPage: number) => void;
 }
 
 export const useMovieListStore = create<MovieListStore>((set) => ({
@@ -25,4 +27,6 @@ export const useMovieListStore = create<MovieListStore>((set) => ({
   setLoading: (loading) => set({ loading }),
   error: "",
   setError: (error) => set({ error }),
+  currentPage: 1,
+  setCurrentPage: (currentPage) => set({ currentPage }),
 }));

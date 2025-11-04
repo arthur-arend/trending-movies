@@ -11,14 +11,20 @@ const sortMoviesByVoteAverage = (movies: IMovie[]): IMovie[] => {
 };
 
 export function useMoviesController() {
-  const { setMoviesTrending, setMoviesByName, setLoading, setError } =
-    useMovieListStore();
+  const {
+    setMoviesTrending,
+    setMoviesByName,
+    setLoading,
+    setError,
+    setCurrentPage,
+  } = useMovieListStore();
 
   const getTrendingMovies = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
-      const moviesResponse = await getTrendingMoviesService();
+      setCurrentPage(1);
+      const moviesResponse = await getTrendingMoviesService(1);
       const sortedMovies = sortMoviesByVoteAverage(moviesResponse);
       setMoviesTrending(sortedMovies);
     } catch (error) {
@@ -28,7 +34,28 @@ export function useMoviesController() {
     } finally {
       setLoading(false);
     }
-  }, [setMoviesTrending, setLoading, setError]);
+  }, [setMoviesTrending, setLoading, setError, setCurrentPage]);
+
+  const loadNextPage = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const state = useMovieListStore.getState();
+      const nextPage = state.currentPage + 1;
+
+      const moviesResponse = await getTrendingMoviesService(nextPage);
+      const sortedMovies = sortMoviesByVoteAverage(moviesResponse);
+
+      setMoviesTrending([...state.moviesTrending, ...sortedMovies]);
+      setCurrentPage(nextPage);
+    } catch (error) {
+      console.error("Erro ao carregar próxima página:", error);
+      setError("Erro ao carregar mais filmes");
+    } finally {
+      setLoading(false);
+    }
+  }, [setMoviesTrending, setLoading, setError, setCurrentPage]);
 
   const getMoviesByName = useCallback(
     async (query: string) => {
@@ -53,5 +80,5 @@ export function useMoviesController() {
     [setMoviesByName, setLoading, setError]
   );
 
-  return { getTrendingMovies, getMoviesByName };
+  return { getTrendingMovies, getMoviesByName, loadNextPage };
 }

@@ -8,7 +8,7 @@ import "./home.styles.scss";
 
 export const Home = () => {
   const { moviesTrending, loading, error } = useMovieListStore();
-  const { getTrendingMovies } = useMoviesController();
+  const { getTrendingMovies, loadNextPage } = useMoviesController();
 
   useEffect(() => {
     if (moviesTrending.length === 0) {
@@ -16,11 +16,40 @@ export const Home = () => {
     }
   }, [getTrendingMovies, moviesTrending.length]);
 
+  useEffect(() => {
+    if (moviesTrending.length === 0 || loading) {
+      return;
+    }
+
+    const intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          loadNextPage();
+        }
+      },
+      {
+        rootMargin: "100px",
+      }
+    );
+
+    const sentinel = document.querySelector("#infinite-scroll");
+    if (sentinel) {
+      intersectionObserver.observe(sentinel);
+    }
+
+    return () => {
+      if (sentinel) {
+        intersectionObserver.unobserve(sentinel);
+      }
+      intersectionObserver.disconnect();
+    };
+  }, [moviesTrending.length, loading, loadNextPage]);
+
   return (
     <>
       <Header />
       <div className="home-page">
-        <h1 className="home-page__title">Filmes em Alta</h1>
+        <h1 className="home-page__title">Tendências</h1>
         <div className="movies-list">
           {loading ? (
             Array.from({ length: 6 }).map((_, index) => (
@@ -31,7 +60,12 @@ export const Home = () => {
               {error}
             </div>
           ) : moviesTrending.length > 0 ? (
-            moviesTrending.map((movie) => <Card key={movie.id} movie={movie} />)
+            <>
+              {moviesTrending.map((movie) => (
+                <Card key={movie.id} movie={movie} />
+              ))}
+              <div id="infinite-scroll" />
+            </>
           ) : (
             <div className="home-page__message">Nenhum filme encontrado.</div>
           )}

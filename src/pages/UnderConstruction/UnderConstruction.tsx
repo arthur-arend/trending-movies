@@ -1,4 +1,5 @@
 import { Header } from "../../components/Header/Header";
+import "./underConstruction.styles.scss";
 
 function UnderConstruction() {
   return (

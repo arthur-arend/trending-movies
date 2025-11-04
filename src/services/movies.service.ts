@@ -4,9 +4,11 @@ import {
   handleMovieListFactory,
 } from "./factories/movies.factory";
 
-export const getTrendingMoviesService = async () => {
+export const getTrendingMoviesService = async (page: number) => {
   const response = await axios.get(
-    `${import.meta.env.VITE_BASE_URL}/trending/movie/week?language=pt-BR`,
+    `${
+      import.meta.env.VITE_BASE_URL
+    }/trending/movie/week?language=pt-BR&page=${page}`,
     {
       headers: {
         accept: "application/json",

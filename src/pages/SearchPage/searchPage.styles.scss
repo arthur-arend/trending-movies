@@ -1,5 +1,6 @@
 .search-page {
   padding: 2rem;
+  padding-top: 8rem;
   min-height: calc(100vh - 200px);
   display: flex;
   flex-direction: column;
@@ -67,5 +68,11 @@
   align-items: flex-start;
   min-height: 400px;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .search-page {
+    padding-top: 12rem;
+  }
 }
 
