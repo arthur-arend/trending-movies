@@ -6,9 +6,7 @@ import {
 
 export const getTrendingMoviesService = async (page: number) => {
   const response = await axios.get(
-    `${
-      import.meta.env.VITE_BASE_URL
-    }/trending/movie/week?language=pt-BR&page=${page}`,
+    `https://api.themoviedb.org/3/trending/movie/week?language=pt-BR&page=${page}`,
     {
       headers: {
         accept: "application/json",
@@ -21,9 +19,7 @@ export const getTrendingMoviesService = async (page: number) => {
 
 export const getMoviesByNameService = async (query: string) => {
   const response = await axios.get(
-    `${
-      import.meta.env.VITE_BASE_URL
-    }/search/movie?query=${query}&language=pt-BR`,
+    `https://api.themoviedb.org/3/search/movie?query=${query}&language=pt-BR`,
     {
       headers: {
         accept: "application/json",
@@ -36,7 +32,7 @@ export const getMoviesByNameService = async (query: string) => {
 
 export const getMovieByIdService = async (id: string) => {
   const response = await axios.get(
-    `${import.meta.env.VITE_BASE_URL}/movie/${id}?language=pt-BR`,
+    `https://api.themoviedb.org/3/movie/${id}?language=pt-BR`,
     {
       headers: {
         accept: "application/json",
