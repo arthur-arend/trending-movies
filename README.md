@@ -103,7 +103,7 @@ npm run test:ui
 
 O projeto foi publicado na **Vercel** e está disponível em:
 
-🔗 [https://trending-movies-hpedfijq2-arthur-arends-projects.vercel.app/](https://trending-movies-hpedfijq2-arthur-arends-projects.vercel.app/)
+🔗 [https://trending-movies-eta.vercel.app/](https://trending-movies-eta.vercel.app/)
 
 ## 📝 Scripts Disponíveis
 
