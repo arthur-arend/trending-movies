@@ -90,6 +90,7 @@ export const handleMovieFactory = (jsonResponse: unknown): IMovie | null => {
     release_date: formatReleaseDate((m.release_date ?? "") as string),
     video: (m.video ?? false) as boolean,
     vote_average: roundVoteAverage((m.vote_average ?? 0) as number),
+    runtime: (m.runtime ?? null) as number | null,
     genres: Array.isArray(m.genres)
       ? (m.genres as Array<{ id: number; name: string }>)
       : undefined,

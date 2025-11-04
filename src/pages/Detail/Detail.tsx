@@ -58,6 +58,9 @@ export const Detail = () => {
                 Lançamento: {movieDetail.release_date}
               </p>
               <p className="detail__text">
+                Duração: {movieDetail.runtime} minutos
+              </p>
+              <p className="detail__text">
                 Nacionalidade: {movieDetail.origin_country}
               </p>
               <p className="detail__text detail__description">

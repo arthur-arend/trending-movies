@@ -13,6 +13,7 @@ export interface IMovie {
   video: boolean;
   vote_average: number;
   genres?: Array<{ id: number; name: string }>;
+  runtime?: number | null;
 }
 
 export interface IMovieList {
